@@ -10,7 +10,7 @@ public class RównanieKwadratowe {
         this.c=c;
     }
 
-    String solve(){
+    public String solve(){
         String solution;
         double delta;
         delta = (b*b-4*a*c);
