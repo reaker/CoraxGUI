@@ -14,8 +14,12 @@ public class CelsiusToFahrenheit extends JFrame implements ActionListener{
     private double tempCelsius, tempFahrentheit;
     private JButton bConvert;
     private JCheckBox chBigFont;
+
     private ButtonGroup bgSize;
     private JRadioButton rbSmall, rbMiddle, rbBig;
+
+    private JRadioButton rbCtoF, rbFtoC;
+    private ButtonGroup radioPanel;
 
     private CelsiusToFahrenheit(){
 
@@ -41,15 +45,16 @@ public class CelsiusToFahrenheit extends JFrame implements ActionListener{
         tFahrentheit= new JTextField("");
         tFahrentheit.setBounds(170,70,150,20);
         add(tFahrentheit);
+        tFahrentheit.addActionListener(this);
 
         bConvert = new JButton("Convert!");
         bConvert.setBounds(70,100,150,20);
         bConvert.addActionListener(this);
         add(bConvert);
 
-        chBigFont = new JCheckBox("Big letters");
+        /*chBigFont = new JCheckBox("Big letters");
         chBigFont.setBounds(251,100,150,20);
-        add(chBigFont);
+        //add(chBigFont);
         chBigFont.addActionListener(this);
 
 
@@ -71,6 +76,22 @@ public class CelsiusToFahrenheit extends JFrame implements ActionListener{
         bgSize.add(rbBig);
         add(rbBig);
         rbBig.addActionListener(this);
+*/
+
+
+        radioPanel = new ButtonGroup();
+        rbCtoF= new JRadioButton("Celsius to Fahrentheit",true);
+        rbFtoC = new JRadioButton("Fahrentheit to Celsius");
+        rbCtoF.setBounds(50,150,150,20);
+        rbFtoC.setBounds(200,150,150,20);
+
+        radioPanel.add(rbCtoF);
+        radioPanel.add(rbFtoC);
+
+        add(rbCtoF);
+        add(rbFtoC);
+
+
 
     }
 
@@ -83,13 +104,32 @@ public class CelsiusToFahrenheit extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
-        if (source==bConvert || source==tCelsius) {
-            tempCelsius = Double.parseDouble(tCelsius.getText());
-            tempFahrentheit = 32.0 + (9.0 / 5.0) * tempCelsius;
+        if (source==bConvert) {
+            if (rbCtoF.isSelected()){
+                tempCelsius = Double.parseDouble(tCelsius.getText());
+                tempFahrentheit = 32.0 + (9.0 / 5.0) * tempCelsius;
+                tFahrentheit.setText("" + tempFahrentheit);
+            }
+            else if (rbFtoC.isSelected()){
+                tempFahrentheit = Double.parseDouble(tFahrentheit.getText());
+                tempCelsius = (tempFahrentheit -32)*5/9;
+                tCelsius.setText(""+ tempCelsius);
+            }
 
-            tFahrentheit.setText("" + tempFahrentheit);
+
         }
 
+        if (source==tCelsius){
+            tempCelsius = Double.parseDouble(tCelsius.getText());
+            tempFahrentheit = 32.0 + (9.0 / 5.0) * tempCelsius;
+            tFahrentheit.setText("" + tempFahrentheit);
+        }
+        else if (source==tFahrentheit){
+            tempFahrentheit = Double.parseDouble(tFahrentheit.getText());
+            tempCelsius = (tempFahrentheit -32)*5/9;
+            tCelsius.setText(""+ tempCelsius);
+        }
+/*
         else if (source==rbSmall){
             tFahrentheit.setFont(new Font("SansSerif", Font.BOLD,8));
         }
@@ -108,7 +148,7 @@ public class CelsiusToFahrenheit extends JFrame implements ActionListener{
             else {                        //false
                 tFahrentheit.setFont(new Font("SansSerif",Font.PLAIN,12));
             }
-        }
+        }*/
     }
 }
 
