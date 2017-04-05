@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
@@ -8,9 +9,10 @@ import java.util.Date;
  */
 public class MojeOkienko extends JFrame implements ActionListener {
 
-    JButton showDate, bExit;
+    private JButton showDate, bExit;
+    private JLabel labelShowDate;
 
-    public  MojeOkienko(){
+    private MojeOkienko(){
         setSize(300,200);
         setTitle("My frame");
         setLayout(null);
@@ -23,12 +25,19 @@ public class MojeOkienko extends JFrame implements ActionListener {
         bExit.setBounds(155,50,100,30);
         add(bExit);
         bExit.addActionListener(this);
+
+        labelShowDate = new JLabel("Date: ");
+        labelShowDate.setBounds(50, 100, 250, 20);
+        labelShowDate.setForeground(Color.RED);
+        labelShowDate.setFont(new Font("Dialog",Font.ITALIC,12));
+        add(labelShowDate);
+
     }
 
     public static void main(String[] args) {
         MojeOkienko mojeOkienko = new MojeOkienko();
 
-        mojeOkienko.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mojeOkienko.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mojeOkienko.setVisible(true);
 
 
@@ -38,7 +47,9 @@ public class MojeOkienko extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
         if (source==showDate) {
-            System.out.println(new Date());
+            //System.out.println(new Date());
+            labelShowDate.setText("Date: "+ new Date());
+
         }
         else if (source==bExit){dispose();}
     }
