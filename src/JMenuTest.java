@@ -35,18 +35,16 @@ public class JMenuTest extends JFrame implements ActionListener {
         menuPlik.addSeparator();
         menuPlik.add(mWyjscie);
 
-
         menuNarzedzia = new JMenu("Narzedzia");
 
         mNarz1 = new JMenuItem("Kolor");
-        mNarz2 = new JMenuItem("polozenie");
+        mNarz2 = new JMenuItem("Przelicznik metry na stopy");
 
-        mNarz2.setEnabled(false);
+        mNarz2.setEnabled(true);
         menuNarzedzia.add(mNarz1);
         menuNarzedzia.add(mNarz2);
 
-
-
+        mNarz2.addActionListener(this);
 
             menuOpcje = new JMenu("Opcje");
             mOpcja1 = new JMenuItem("opcja 1");
@@ -57,8 +55,6 @@ public class JMenuTest extends JFrame implements ActionListener {
             menuOpcje.add(chOpcja2);
 
         menuNarzedzia.add(menuOpcje);
-
-
 
         menuPomoc = new JMenu("Pomoc");
 
@@ -73,28 +69,33 @@ public class JMenuTest extends JFrame implements ActionListener {
 
         menuBar.add(Box.createHorizontalGlue());
         menuBar.add(menuPomoc);
-
-
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
-        if (source==mWyjscie){dispose();}
+        if (source==mWyjscie){
+            int odp = JOptionPane.showConfirmDialog(null,"Czy na pewno wyjść?", "Pytanie", JOptionPane.YES_NO_OPTION);
+            if (odp==JOptionPane.YES_OPTION) dispose();
+            else if (odp==JOptionPane.NO_OPTION){JOptionPane.showMessageDialog(null, "Wiedziałem...");}
+        }
         else if (source==chOpcja2){
             if (chOpcja2.isSelected()){
                 mNarz1.setEnabled(true);
             }
             else mNarz1.setEnabled(false);
         }
-
         else if (source==mOProgramie){
-            JOptionPane.showMessageDialog(this,"Proram demonstruje wykorzystanie JMenuBar i JMenu\n Wersja 1.0");
+            JOptionPane.showMessageDialog(this,"Proram demonstruje wykorzystanie JMenuBar i JMenu\n Wersja 1.0","Pomoc",JOptionPane.INFORMATION_MESSAGE);
         }
-
-
+        else if (source==mNarz2) {
+            String sMetry = JOptionPane.showInputDialog("Podaj dlugosc w metrzach");
+            double metry = Double.parseDouble(sMetry);
+            double stopy = metry /0.3048;
+            String sStopy= String.format("%.2f", stopy);
+            JOptionPane.showMessageDialog(null, metry+" metrów to "+sStopy + " stóp");
+        }
     }
-
 
     public static void main(String[] args) {
         JMenuTest jMenuTest = new JMenuTest();
