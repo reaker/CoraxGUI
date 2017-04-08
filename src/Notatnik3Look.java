@@ -150,9 +150,6 @@ public class Notatnik3Look extends JFrame implements ActionListener {
         bColor.addActionListener(this);
         add(bColor);
 
-
-
-
         setJMenuBar(menuBar);
         menuBar.add(menuPlik);
         menuBar.add(menuNarzedzia);
@@ -160,9 +157,7 @@ public class Notatnik3Look extends JFrame implements ActionListener {
         menuBar.add(Box.createHorizontalGlue());
         menuBar.add(menuPomoc);
 
-
     }
-
 
     //================================================================================================
     @Override
@@ -281,7 +276,6 @@ public class Notatnik3Look extends JFrame implements ActionListener {
             }  catch (Exception e1) {
                 e1.printStackTrace();
             }
-
         }
         else if (s==mNimbus){
             try {
@@ -298,13 +292,8 @@ public class Notatnik3Look extends JFrame implements ActionListener {
             }  catch (Exception e1) {
                 e1.printStackTrace();
             }
-
         }
     }
-
-
-
-
 
     //===================================================================================================
     public static void main(String[] args) {
