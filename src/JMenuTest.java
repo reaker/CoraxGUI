@@ -1,6 +1,7 @@
 import jdk.nashorn.internal.scripts.JO;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -13,7 +14,7 @@ import java.util.Scanner;
  */
 public class JMenuTest extends JFrame implements ActionListener {
 
-    private JButton bSzukaj;
+    private JButton bSzukaj, bColor;
     private JMenuBar menuBar;
     private JMenu menuPlik, menuNarzedzia, menuPomoc,menuOpcje;
     private JMenuItem mOtworz, mZapisz, mWyjscie, mNarz1, mNarz2, mOpcja1, mOProgramie, mpWklej, mpDolacz, mpKopiuj ;
@@ -22,6 +23,8 @@ public class JMenuTest extends JFrame implements ActionListener {
     private JTextField tSzukany;
     private JPopupMenu popup;
     private String wybranyTekst;
+    private JComboBox colorCombo;
+    private JColorChooser jColorChooser;
 
     private JMenuTest(){
         setTitle("Menu");
@@ -33,6 +36,7 @@ public class JMenuTest extends JFrame implements ActionListener {
 
         //Menu Bar
         menuBar = new JMenuBar();
+
         //Menu Plik
         menuPlik = new JMenu("Plik");
 
@@ -98,6 +102,7 @@ public class JMenuTest extends JFrame implements ActionListener {
         bSzukaj.addActionListener(this);
         add(bSzukaj);
 
+        //Popup Menu
         popup = new JPopupMenu();
         mpDolacz = new JMenuItem("Dolacz");
         mpKopiuj = new JMenuItem("Kopiuj");
@@ -113,6 +118,23 @@ public class JMenuTest extends JFrame implements ActionListener {
 
         notatnik.setComponentPopupMenu(popup);
 
+        //Combo Box
+        colorCombo = new JComboBox();
+        colorCombo.setBounds(380,50,100,20);
+        colorCombo.addItem("czarny");
+        colorCombo.addItem("różowy");
+        colorCombo.addItem("zielony");
+        colorCombo.addItem("czerwony");
+        colorCombo.addItem("niebieski");
+
+        colorCombo.addActionListener(this);
+        add(colorCombo);
+
+        //Color chooser
+        bColor = new JButton("Wybierz kolor");
+        bColor.setBounds(390,380,100,20);
+        bColor.addActionListener(this);
+        add(bColor);
 
         setJMenuBar(menuBar);
         menuBar.add(menuPlik);
@@ -121,11 +143,10 @@ public class JMenuTest extends JFrame implements ActionListener {
         menuBar.add(menuPomoc);
 
 
-
-
-
     }
 
+
+    //================================================================================================
     @Override
     public void actionPerformed(ActionEvent e) {
         Object s = e.getSource();
@@ -168,7 +189,6 @@ public class JMenuTest extends JFrame implements ActionListener {
                     printWriter.close();
 
                 } catch (FileNotFoundException e1) {e1.printStackTrace();}
-
             }
         }
 
@@ -211,31 +231,38 @@ public class JMenuTest extends JFrame implements ActionListener {
             int startIndex=0;
 
             while ((index= tekst.indexOf(szukane,startIndex))!=-1){
-
                 startIndex=index+szukane.length();
                 i++;
                 wystapienia = wystapienia + " " + index;
-
             }
-
             JOptionPane.showMessageDialog(null,"Wyrażenie: \""+szukane + "\" wystąpiło: "+ i + " razy na indeksach: "+ wystapienia,"Szukaj",JOptionPane.INFORMATION_MESSAGE);
+        }
+        //Akcja dla Dołącz, Wklej, Kopiuj
+        else if (s==mpDolacz){notatnik.append("\n" + wybranyTekst);}
+        else if (s==mpWklej){notatnik.insert(wybranyTekst,notatnik.getCaretPosition());}
+        else if (s==mpKopiuj){wybranyTekst = notatnik.getSelectedText();}
 
-        }
-
-        else if (s==mpDolacz){
-            notatnik.append("\n" + wybranyTekst);
-        }
-        else if (s==mpWklej){
-            notatnik.insert(wybranyTekst,notatnik.getCaretPosition());
-        }
-        else if (s==mpKopiuj){
-            wybranyTekst = notatnik.getSelectedText();
+        //Akcja dla Combo Boxa
+        else if (s==colorCombo){
+            String color= colorCombo.getSelectedItem().toString();
+            if (color.equals("zielony")){notatnik.setForeground(Color.GREEN);}
+            else if (color.equals("czerwony")){notatnik.setForeground(Color.RED);}
+            else if (color.equals("niebieski")){notatnik.setForeground(Color.BLUE);}
+            else if (color.equals("czarny")){notatnik.setForeground(Color.BLACK);}
+            else if (color.equals("różowy")){notatnik.setForeground(Color.PINK);}
+            }
+        //Akcja dla Color Chooser
+        else if (s==bColor){
+            Color wybranyKolor = JColorChooser.showDialog(null,"Wybierz kolor",Color.BLACK);
+            notatnik.setForeground(wybranyKolor);
         }
     }
 
+
+    //===================================================================================================
     public static void main(String[] args) {
         JMenuTest jMenuTest = new JMenuTest();
         jMenuTest.setVisible(true);
-        jMenuTest.setSize(420,500);
+        jMenuTest.setSize(520,500);
     }
 }
